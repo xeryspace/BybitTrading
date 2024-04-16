@@ -11,6 +11,7 @@ session = HTTP(
     api_secret=api_secret,
 )
 
+log_messages = []
 
 def open_position(qty):
     try:
@@ -21,10 +22,13 @@ def open_position(qty):
             orderType="Market",
             qty=qty,
         )
-        st.write(f"Opened position for DEGENUSDT: {order}")
+        message = f"Opened position for DEGENUSDT: {order}"
+        log_messages.append(message)
+        st.write(message)
     except Exception as e:
-        st.write(f"Error opening position for DEGENUSDT: {str(e)}")
-
+        message = f"Error opening position for DEGENUSDT: {str(e)}"
+        log_messages.append(message)
+        st.write(message)
 
 def close_position(qty):
     try:
@@ -37,13 +41,16 @@ def close_position(qty):
             reduce_only=True,
             close_on_trigger=False,
         )
-        st.write(f"Closed position for DEGENUSDT: {order}")
+        message = f"Closed position for DEGENUSDT: {order}"
+        log_messages.append(message)
+        st.write(message)
     except Exception as e:
-        st.write(f"Error closing position for DEGENUSDT: {str(e)}")
-
+        message = f"Error closing position for DEGENUSDT: {str(e)}"
+        log_messages.append(message)
+        st.write(message)
 
 def handle_webhook(webhook_data):
-    if webhook_data.get("passphrase") != "YOUR_WEBHOOK_PASSPHRASE":
+    if webhook_data.get("passphrase") != "Armjansk12!!":
         return
 
     alert_message = webhook_data.get("message")
@@ -59,10 +66,13 @@ def handle_webhook(webhook_data):
             elif action == "sell":
                 close_position(qty)
         except json.JSONDecodeError:
-            st.write("Invalid JSON format in the alert message.")
+            message = "Invalid JSON format in the alert message."
+            log_messages.append(message)
+            st.write(message)
         except Exception as e:
-            st.write(f"Error processing webhook: {str(e)}")
-
+            message = f"Error processing webhook: {str(e)}"
+            log_messages.append(message)
+            st.write(message)
 
 def main():
     st.title("TradingView Webhook Endpoint")
@@ -70,6 +80,9 @@ def main():
     webhook_data = st.experimental_get_query_params()
     handle_webhook(webhook_data)
 
+    st.header("Log")
+    for message in log_messages:
+        st.write(message)
 
 if __name__ == "__main__":
     main()
