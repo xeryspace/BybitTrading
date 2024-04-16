@@ -4,6 +4,7 @@ import json
 
 api_key = 'ULI4j96SQhGePVhxCu'
 api_secret = 'XnBhumm73kDKJSFDFLKEZSLkkX2KwMvAj4qC'
+st.set_option("server.enableCORS", True)
 
 session = HTTP(
     testnet=False,
@@ -83,6 +84,7 @@ def main():
     st.header("Log")
     for message in log_messages:
         st.write(message)
+
 
 if __name__ == "__main__":
     main()
