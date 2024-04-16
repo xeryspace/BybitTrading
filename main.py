@@ -4,7 +4,6 @@ import json
 
 api_key = 'ULI4j96SQhGePVhxCu'
 api_secret = 'XnBhumm73kDKJSFDFLKEZSLkkX2KwMvAj4qC'
-st.set_option("server.enableCORS", True)
 
 session = HTTP(
     testnet=False,
